@@ -50,7 +50,7 @@ export const vehicles = [
     nextMaintenance: '2024-02-22',
     assignedDriver: 1,
     location: { lat: 34.0624, lng: -118.3652 },
-    image: 'https://images.unsplash.com/photo-1630513483672-94f6e4eebdb1?ixlib=rb-4.0.3'
+    image: 'https://images.unsplash.com/photo-1551830820-330a71b99659?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Rm9yZHxlbnwwfHwwfHx8MA%3D%3D'
   },
   {
     id: 3,
@@ -67,7 +67,7 @@ export const vehicles = [
     nextMaintenance: '2023-12-10',
     assignedDriver: 5,
     location: { lat: 34.1478, lng: -118.1445 },
-    image: 'https://images.unsplash.com/photo-1627283375431-b90a9f2144e7?ixlib=rb-4.0.3'
+    image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8TWVyY2VkZXMlMjBCZW56fGVufDB8fDB8fHww'
   },
   {
     id: 4,
@@ -84,7 +84,7 @@ export const vehicles = [
     nextMaintenance: '2024-03-05',
     assignedDriver: 2,
     location: { lat: 34.0825, lng: -118.2748 },
-    image: 'https://images.unsplash.com/photo-1592805144716-feaddaaa4ede?ixlib=rb-4.0.3'
+    image: 'https://images.unsplash.com/photo-1671460924507-dec402948d92?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Vm9sdm8lMjBjYXJ8ZW58MHx8MHx8fDA%3D'
   },
   {
     id: 5,
@@ -101,7 +101,7 @@ export const vehicles = [
     nextMaintenance: '2023-10-18',
     assignedDriver: null,
     location: { lat: 34.0224, lng: -118.2851 },
-    image: 'https://images.unsplash.com/photo-1626444344029-5c680f7c6c53?ixlib=rb-4.0.3'
+    image: 'https://images.unsplash.com/photo-1719891652597-b76354270790?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8SXN1enUlMjBjYXJ8ZW58MHx8MHx8fDA%3D'
   },
   {
     id: 6,
@@ -118,7 +118,7 @@ export const vehicles = [
     nextMaintenance: '2024-04-12',
     assignedDriver: 4,
     location: { lat: 34.0902, lng: -118.3762 },
-    image: 'https://images.unsplash.com/photo-1647334419426-879a38ba3f2c?ixlib=rb-4.0.3'
+    image: 'https://images.unsplash.com/photo-1611396058741-1d570a4fcf95?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8TWl0c3ViaXNoaXxlbnwwfHwwfHx8MA%3D%3D'
   }
 ];
 
