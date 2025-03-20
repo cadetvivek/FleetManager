@@ -1,4 +1,6 @@
 
+
+
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -13,7 +15,7 @@ const DashboardLayout = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-background to-secondary/30">
       {/* Sidebar for desktop */}
-      <div className="hidden md:block">
+      <div className="hidden md:block w-64 flex-shrink-0">
         <Sidebar />
       </div>
       
@@ -21,7 +23,7 @@ const DashboardLayout = ({ children }) => {
       {mobileSidebarOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="fixed inset-0 bg-gray-900/50" onClick={toggleSidebar}></div>
-          <div className="fixed inset-y-0 left-0">
+          <div className="fixed inset-y-0 left-0 w-64">
             <Sidebar />
           </div>
         </div>
@@ -36,7 +38,7 @@ const DashboardLayout = ({ children }) => {
         </main>
         
         <footer className="py-4 px-6 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
-          <p>© 2023 FleetManagerPro. All rights reserved.</p>
+          <p>© 2025 FleetManagerPro. All rights reserved.</p>
         </footer>
       </div>
     </div>
