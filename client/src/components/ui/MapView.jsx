@@ -1,41 +1,56 @@
 
-import React from 'react';
 
-const MapView = ({ vehicles, geofences, center, zoom = 10, height = 400 }) => {
-  // In a real app, we would use react-leaflet or Google Maps
-  // This is a simple placeholder
+
+
+import React, { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+
+const MapView = ({ apiUrl, center = [51.505, -0.09], zoom = 10, height = 400 }) => {
+  const [vehicles, setVehicles] = useState([]);
+
+  // Fetch vehicle positions every 5 seconds
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        setVehicles(data.vehicles || []); // Ensure vehicles exist in response
+      } catch (error) {
+        console.error("Error fetching vehicle data:", error);
+      }
+    };
+
+    // Fetch initially and then every 5 seconds
+    fetchVehicles();
+    const interval = setInterval(fetchVehicles, 5000);
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, [apiUrl]);
+
   return (
-    <div 
-      className="relative w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-      style={{ height: `${height}px` }}
-    >
-      <div className="absolute inset-0 flex items-center justify-center flex-col p-4">
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round" 
-          className="w-12 h-12 text-gray-400 mb-4"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-          <path d="M2 12h20" />
-        </svg>
-        <p className="text-center text-gray-500 dark:text-gray-400">
-          Map visualization would appear here with {vehicles?.length || 0} vehicles tracked in real-time.
-        </p>
-        <p className="text-center text-gray-500 dark:text-gray-400 mt-2">
-          {geofences?.length || 0} geofence zones defined.
-        </p>
-        <button className="mt-4 bg-primary text-white px-4 py-2 rounded-md text-sm hover:bg-primary/90 transition-colors">
-          Enable Live Map
-        </button>
-      </div>
+    <div className="relative w-full rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700" style={{ height: `${height}px` }}>
+      <MapContainer center={center} zoom={zoom} className="h-full w-full">
+        {/* OpenStreetMap Tile Layer */}
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+
+        {/* Render Vehicle Markers */}
+        {vehicles.map((vehicle, index) => (
+          <Marker key={index} position={[vehicle.lat, vehicle.lng]}>
+            <Popup>
+              <div className="p-2 text-sm">
+                <strong className="text-blue-600">{vehicle.name}</strong>
+                <p>Speed: {vehicle.speed} km/h</p>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
     </div>
   );
 };
 
 export default MapView;
+
