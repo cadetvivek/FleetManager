@@ -1,7 +1,8 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, LogIn, Mail, Lock, UserPlus } from 'lucide-react';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
+import { auth } from '../config/firebase';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,17 +10,81 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   
-  const handleAuth = (e) => {
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
+  
+  const handleAuth = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    // Simulate authentication
-    setTimeout(() => {
-      setLoading(false);
+    setError('');
+
+    try {
+      if (isLogin) {
+        // Sign in existing user
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        // Create new user
+        await createUserWithEmailAndPassword(auth, email, password);
+      }
       navigate('/');
-    }, 1500);
+    } catch (error) {
+      console.error('Authentication error:', error);
+      // More user-friendly error messages
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          setError('An account with this email already exists');
+          break;
+        case 'auth/invalid-email':
+          setError('Please enter a valid email address');
+          break;
+        case 'auth/weak-password':
+          setError('Password should be at least 6 characters');
+          break;
+        case 'auth/user-not-found':
+          setError('No account found with this email');
+          break;
+        case 'auth/wrong-password':
+          setError('Incorrect password');
+          break;
+        case 'auth/configuration-not-found':
+          setError('Authentication service is not properly configured');
+          break;
+        default:
+          setError('An error occurred. Please try again later.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleGoogleSignIn = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      navigate('/');
+    } catch (error) {
+      console.error('Google sign-in error:', error);
+      setError('Error signing in with Google. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleGithubSignIn = async () => {
+    try {
+      setLoading(true);
+      await signInWithPopup(auth, githubProvider);
+      navigate('/');
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
   
   const toggleAuthMode = () => {
@@ -48,6 +113,12 @@ const Login = () => {
                 }
               </p>
             </div>
+            
+            {error && (
+              <div className="mb-4 p-3 text-sm text-red-500 bg-red-100 rounded-lg">
+                {error}
+              </div>
+            )}
             
             <form onSubmit={handleAuth}>
               <div className="space-y-4">
@@ -167,6 +238,7 @@ const Login = () => {
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <button
                   type="button"
+                  onClick={handleGoogleSignIn}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
@@ -175,6 +247,7 @@ const Login = () => {
                 </button>
                 <button
                   type="button"
+                  onClick={handleGithubSignIn}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
